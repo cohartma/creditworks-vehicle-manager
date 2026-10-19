@@ -1,0 +1,64 @@
+@page
+@model CreditWorks.Web.Pages.Categories.IndexModel
+
+@{
+    ViewData["Title"] = "Vehicle categories";
+}
+
+<h1>Vehicle categories</h1>
+
+<p>
+    <a asp-page="./Create" class="btn btn-primary">Create category</a>
+    <a asp-page="./Edit" class="btn btn-secondary">Edit category</a>
+</p>
+<p>
+    Deleting a category merges its range into the previous category.
+    Deleting the first category merges its range into the next category.
+</p>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Category</th>
+            <th>Icon</th>
+            <th>Minimum weight</th>
+            <th>Maximum weight</th>
+            <th>Delete category</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model.Categories)
+        {
+
+            <tr>
+                <td>@category.Name</td>
+                <td><i class="bi bi-@category.IconKey" aria-hidden="true"></i></td>
+                <td>@category.MinimumWeightKg.ToString("N2") kg</td>
+                <td>
+                    @(category.MaximumWeightKg is decimal maximum
+                        ? $"{maximum:N2} kg"
+                        : "No upper limit")
+                </td>
+                <td>
+                    @if (Model.Categories.Count > 1)
+                    {
+                        <form method="post" 
+                            asp-page-handler="Delete"
+                            onsubmit="return confirm('Delete this category? Its range will be merged with a neighboring category.');">
+                            <input type="hidden" name="id" value="@category.Id" />
+                            <button type="submit" class="btn btn-outline-danger">
+                                Delete
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Keep at least one</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

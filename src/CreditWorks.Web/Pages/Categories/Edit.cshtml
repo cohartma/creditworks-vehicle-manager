@@ -1,0 +1,82 @@
+@page
+@model CreditWorks.Web.Pages.Categories.EditModel
+
+@{
+    ViewData["Title"] = "Edit categories";
+}
+
+<h1>Edit categories</h1>
+
+<p>
+    Each category includes its minimum weight and excludes its maximum.
+    Leave the maximum blank for the final category.
+</p>
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    @for (var index = 0; index < Model.Categories.Count; index++)
+    {
+        <input type="hidden" asp-for="Categories[index].Id" />
+
+        <fieldset class="border rounded p-3 mb-3">
+            <legend class="float-none w-auto px-2">
+                Category @(index + 1)
+            </legend>
+
+            <div class="mb-3">
+                <label asp-for="Categories[index].Name" class="form-label"></label>
+                <input asp-for="Categories[index].Name" class="form-control" />
+                <span asp-validation-for="Categories[index].Name"
+                    class="text-danger"></span>
+            </div>
+
+            <fieldset class="mb-3">
+                <legend class="form-label">Icon</legend>
+
+                <div class="d-flex flex-wrap gap-3">
+                    @foreach (var icon in Model.IconOptions)
+                    {
+                        var iconId = $"category-{index}-icon-{icon.Value}";
+
+                        <div class="form-check">
+                            <input asp-for="Categories[index].IconKey" type="radio" value="@icon.Value"
+                                   id="@iconId" class="form-check-input" />
+                            <label for="@iconId"
+                                   class="form-check-label d-flex align-items-center gap-2">
+                                <i class="bi bi-@icon.Value fs-4" aria-hidden="true"></i>
+                                @icon.Text
+                            </label>
+                        </div>
+                    }
+                </div>
+
+                <span asp-validation-for="Categories[index].IconKey"
+                      class="text-danger"></span>
+            </fieldset>
+
+            <div class="mb-3">
+                <label asp-for="Categories[index].MinimumWeightKg" class="form-label">
+                    Minimum weight (kg)
+                </label>
+                <input asp-for="Categories[index].MinimumWeightKg"
+                       class="form-control" />
+                <span asp-validation-for="Categories[index].MinimumWeightKg"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Categories[index].MaximumWeightKg" class="form-label">
+                    Maximum weight (kg)
+                </label>
+                <input asp-for="Categories[index].MaximumWeightKg"
+                       class="form-control" />
+                <span asp-validation-for="Categories[index].MaximumWeightKg"
+                      class="text-danger"></span>
+                <div class="form-text">Leave blank for no upper limit.</div>
+            </div>
+        </fieldset>
+    }
+    <button type="submit" class="btn btn-primary">Save categories</button>
+    <a asp-page="./Index" class="btn btn-secondary">Cancel</a>
+</form>

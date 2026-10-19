@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CreditWorks.Core/CreditWorks.Core.csproj" />
+    <Project Path="src/CreditWorks.Web/CreditWorks.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CreditWorks.IntegrationTests/CreditWorks.IntegrationTests.csproj" />
+    <Project Path="tests/CreditWorks.Tests/CreditWorks.Tests.csproj" />
+  </Folder>
+</Solution>

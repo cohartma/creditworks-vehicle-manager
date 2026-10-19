@@ -1,0 +1,75 @@
+@page
+@model CreditWorks.Web.Pages.Categories.CreateModel
+
+@{
+    ViewData["Title"] = "Create category";
+}
+
+<h1>Create category</h1>
+
+<p>
+    This creates a new category by splitting an existing category at the weight you choose.
+</p>
+
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Input.Name" class="form-label">Category name</label>
+        <input asp-for="Input.Name" class="form-control" />
+        <span asp-validation-for="Input.Name" class="text-danger"></span>
+    </div>
+
+
+    <fieldset class="mb-3">
+        <legend class="form-label">Icon</legend>
+
+        <div class="d-flex flex-wrap gap-3">
+            @foreach (var icon in Model.IconOptions)
+            {
+                var iconId = $"Input_IconKey_{icon.Value!.Replace('-', '_')}";
+
+                <div class="form-check">
+                    <input asp-for="Input.IconKey" type="radio" value="@icon.Value"
+                           id="@iconId" class="form-check-input" />
+                    <label for="@iconId"
+                           class="form-check-label d-flex align-items-center gap-2">
+                        <i class="bi bi-@icon.Value fs-4" aria-hidden="true"></i>
+                        @icon.Text
+                    </label>
+                </div>
+            }
+        </div>
+
+        <span asp-validation-for="Input.IconKey" class="text-danger"></span>
+    </fieldset>
+
+    <div class="mb-3">
+        <label asp-for="Input.CategoryToSplitId" class="form-label">
+            Category to split
+        </label>
+        <select asp-for="Input.CategoryToSplitId"
+                asp-items="Model.CategoriesToSplit"
+                class="form-select">
+            <option value="">Choose a category</option>
+        </select>
+        <span asp-validation-for="Input.CategoryToSplitId"
+              class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Input.SplitAtKg" class="form-label">
+            Split at (kg)
+        </label>
+        <input asp-for="Input.SplitAtKg"
+               type="number"
+               min="0.02"
+               step="0.01"
+               class="form-control" />
+        <span asp-validation-for="Input.SplitAtKg" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create category</button>
+    <a asp-page="./Index" class="btn btn-secondary">Cancel</a>
+</form>

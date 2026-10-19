@@ -1,0 +1,13 @@
+.env
+
+# .NET build and test output
+**/bin/
+**/obj/
+**/TestResults/
+
+# Local IDE and operating system files
+.vs/
+*.user
+*.suo
+**/.DS_Store
+*__virtual.html

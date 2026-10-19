@@ -1,0 +1,79 @@
+@page
+@model CreditWorks.Web.Pages.Vehicles.IndexModel
+
+@{
+    ViewData["Title"] = "Vehicles";
+}
+
+<h1>Vehicles</h1>
+
+
+<p>
+    <a asp-page="./Create" class="btn btn-primary">Add vehicle</a>
+</p>
+
+<p>
+    Sorted by <strong>@Model.SortBy</strong>
+    (@(Model.Descending ? "descending" : "ascending"))
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                <a asp-page="./Index"
+                   asp-route-sortBy="owner"
+                   asp-route-descending="@(Model.SortBy == "owner" && !Model.Descending)">
+                    Owner
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index"
+                   asp-route-sortBy="manufacturer"
+                   asp-route-descending="@(Model.SortBy == "manufacturer" && !Model.Descending)">
+                    Manufacturer
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index"
+                   asp-route-sortBy="year"
+                   asp-route-descending="@(Model.SortBy == "year" && !Model.Descending)">
+                    Year
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index"
+                   asp-route-sortBy="weight"
+                   asp-route-descending="@(Model.SortBy == "weight" && !Model.Descending)">
+                    Weight
+                </a>
+            </th>
+            <th>Category</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Vehicles.Count == 0)
+        {
+            <tr>
+                <td colspan="5">No vehicles have been added yet.</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var vehicle in Model.Vehicles)
+            {
+
+                <tr>
+                    <td>@vehicle.OwnerName</td>
+                    <td>@vehicle.ManufacturerName</td>
+                    <td>@vehicle.YearOfManufacture</td>
+                    <td>@vehicle.WeightKg.ToString("N2") kg</td>
+                    <td>
+                        <i class="bi bi-@vehicle.Category.IconKey" aria-hidden="true"></i>
+                        @vehicle.Category.Name
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
